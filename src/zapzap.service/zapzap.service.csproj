@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\zapzap.common\zapzap.common.csproj" />
+    <ProjectReference Include="..\zapzap.provider.websocket\zapzap.provider.websocket.csproj" />
+    <ProjectReference Include="..\zapzap.repository\zapzap.repository.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "Chat Messenger";
+}
+
+<style>
+    body {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .msg {
+        height: 400px;
+        top: 0;
+        bottom: 30px;
+        border: 1px solid green;
+        margin-bottom: auto;
+        display: block;
+        overflow: scroll;
+        width: 90;
+        white-space: nowrap;
+    }
+</style>
+<div>
+    <div class="msg">
+        <div style="bottom:0;" id="msgs"></div>
+    </div>
+
+    <div style="height:20px;bottom:10px;left:0; display:block;width:100%">
+        <input type="text" style="max-width:unset;width:100%;max-width:100%" id="MessageField" placeholder="type message and press enter" />
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(function () {
+
+            var protocol = location.protocol === "https:" ? "wss:" : "ws:";
+            var wsUri = protocol + "//" + window.location.host;
+            var socket = new WebSocket(wsUri);
+
+            socket.onopen = e => {
+                console.log("socket opened", e);
+            };
+
+            socket.onclose = function (e) {
+                console.log("socket closed", e);
+            };
+
+            socket.onmessage = function (e) {
+                console.log(e);
+                $('#msgs').append(e.data + '<br />');
+            };
+
+            socket.onerror = function (e) {
+                console.error(e.data);
+            };
+
+            $('#MessageField').keypress(function (e) {
+                if (e.which != 13 || $('#MessageField').val() == "")
+                    return;
+
+                e.preventDefault();
+
+                var message = $('#MessageField').val();
+                socket.send(message);
+
+                $('#msgs').append("> " + message + '<br />');
+                $('#MessageField').val('');
+            });
+        });
+    </script>
+}
